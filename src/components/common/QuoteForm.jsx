@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { services } from "../../data/services";
-import { Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2, Loader2 } from "lucide-react";
+import { quoteFormSchema, contactFormSchema } from "../../lib/validations";
 import {
   Select,
   SelectContent,
@@ -9,7 +10,12 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 
-export default function QuoteForm({ isCompact = false, isSimple = false }) {
+const API_URLS = {
+  quote: import.meta.env.VITE_GET_QUOTE_API,
+  contact: import.meta.env.VITE_CONTACT_FORM_API,
+};
+
+export default function QuoteForm({ isCompact = false, isSimple = false, formType = "contact" }) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -19,40 +25,75 @@ export default function QuoteForm({ isCompact = false, isSimple = false }) {
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   const validate = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required";
-    if (!formData.phone.trim()) newErrors.phone = "Phone is required";
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
+    const schema = formType === "quote" ? quoteFormSchema : contactFormSchema;
+    const result = schema.safeParse(formData);
+
+    if (!result.success) {
+      const fieldErrors = {};
+      result.error.errors.forEach((err) => {
+        const field = err.path[0];
+        if (!fieldErrors[field]) {
+          fieldErrors[field] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      return false;
     }
-    if (!formData.message.trim()) newErrors.message = "Message is required";
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+
+    setErrors({});
+    return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      // Fake submission
+    setApiError("");
+
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const apiUrl = API_URLS[formType];
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`);
+      }
+
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
         setFormData({ name: "", phone: "", email: "", service: "", message: "" });
       }, 5000);
+    } catch (err) {
+      setApiError("Something went wrong. Please try again or contact us directly.");
+      console.error("Form submission error:", err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    // For phone field, only allow digits and limit to 10
+    if (name === "phone") {
+      const digitsOnly = value.replace(/\D/g, "").slice(0, 10);
+      setFormData((prev) => ({ ...prev, [name]: digitsOnly }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+    if (apiError) setApiError("");
   };
 
   // Custom setter for shadcn select
@@ -122,30 +163,30 @@ export default function QuoteForm({ isCompact = false, isSimple = false }) {
               value={formData.phone}
               onChange={handleChange}
               className={inputClass}
-              placeholder="+91 00000 00000"
+              placeholder="10 digit number"
+              maxLength={10}
             />
           </div>
           {errors.phone && <p className="text-accent text-[9px] font-bold uppercase tracking-wider mt-1">{errors.phone}</p>}
         </div>
 
-        {/* Service Field with shadcn */}
-        {!isSimple && (
-          <div className="space-y-1">
-            <label className="block text-[12px] font-bold text-ink">What you are interested</label>
-            <Select onValueChange={handleServiceChange} value={formData.service}>
-              <SelectTrigger className={`w-full bg-[#F9F9F9] dark:bg-ink/5 border-none rounded-xl px-4 transition-all text-ink font-medium ${isCompact ? 'h-[40px]' : 'h-[55px]'} focus:ring-0 focus:ring-offset-0`}>
-                <SelectValue placeholder="Select service" />
-              </SelectTrigger>
-              <SelectContent className="bg-background border-border">
-                {services.map((s) => (
-                  <SelectItem key={s.id} value={s.name} className="focus:bg-accent focus:text-white cursor-pointer">
-                    {s.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        )}
+        {/* Service Dropdown - always visible */}
+        <div className="space-y-1">
+          <label className="block text-[12px] font-bold text-ink">What you are interested</label>
+          <Select onValueChange={handleServiceChange} value={formData.service}>
+            <SelectTrigger className={`w-full bg-[#F9F9F9] dark:bg-ink/5 border-none rounded-xl px-4 transition-all text-ink font-medium ${isCompact || isSimple ? 'h-[40px]' : 'h-[55px]'} focus:ring-0 focus:ring-offset-0`}>
+              <SelectValue placeholder="Select service" />
+            </SelectTrigger>
+            <SelectContent className="bg-background border-border">
+              {services.map((s) => (
+                <SelectItem key={s.id} value={s.name} className="focus:bg-accent focus:text-white cursor-pointer">
+                  {s.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.service && <p className="text-accent text-[9px] font-bold uppercase tracking-wider mt-1">{errors.service}</p>}
+        </div>
       </div>
 
       {/* Message Field */}
@@ -164,18 +205,34 @@ export default function QuoteForm({ isCompact = false, isSimple = false }) {
         {errors.message && <p className="text-accent text-[9px] font-bold uppercase tracking-wider mt-1">{errors.message}</p>}
       </div>
 
+      {/* API Error */}
+      {apiError && (
+        <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm font-medium px-4 py-3 rounded-xl">
+          {apiError}
+        </div>
+      )}
+
       <div className="pt-1 flex justify-start">
         <button
           type="submit"
-          className={`group relative ${isCompact || isSimple ? 'h-[42px] px-8' : 'h-[55px] px-12'} cursor-pointer flex items-center justify-center overflow-hidden bg-ink text-white transition-all duration-300 hover:bg-accent rounded-lg`}
+          disabled={isSubmitting}
+          className={`group relative ${isCompact || isSimple ? 'h-[42px] px-8' : 'h-[55px] px-12'} cursor-pointer flex items-center justify-center overflow-hidden bg-ink text-white transition-all duration-300 hover:bg-accent rounded-lg disabled:opacity-60 disabled:cursor-not-allowed`}
         >
           <div className="relative z-10 flex items-center justify-center gap-2">
-            <span className="font-bold uppercase tracking-[0.2em] text-[11px]">JUST SEND</span>
-            <Send className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className="font-bold uppercase tracking-[0.2em] text-[11px]">SENDING...</span>
+              </>
+            ) : (
+              <>
+                <span className="font-bold uppercase tracking-[0.2em] text-[11px]">JUST SEND</span>
+                <Send className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </>
+            )}
           </div>
         </button>
       </div>
     </form>
   );
 }
-

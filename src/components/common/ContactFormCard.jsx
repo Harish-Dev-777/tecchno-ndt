@@ -28,7 +28,7 @@ export default function ContactFormCard({
               <span className="inline-block animate-pulse text-lg sm:text-2xl ml-2">{emoji}</span>
             </h3>
           </div>
-          <QuoteForm isCompact={true} />
+          <QuoteForm isCompact={true} formType="contact" />
         </div>
       </div>
     </div>

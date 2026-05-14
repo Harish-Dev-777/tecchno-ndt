@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Mail, Phone } from "lucide-react";
 import { WhatsAppIcon } from "./Icons";
 import { useModal } from "../../context/ModalContext";
+import logo from "../../assets/logo.png";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -20,21 +21,8 @@ export default function Footer() {
           <div className="flex flex-row md:flex-col justify-between md:justify-start items-start gap-6">
             <div className="space-y-4 max-w-[50%] md:max-w-full">
               <Link to="/" className="flex items-center gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#F5F0E8] text-[#1A1A1A] rounded-full flex items-center justify-center font-heading font-black text-lg sm:text-xl tracking-tight shrink-0">
-                  TN<span className="text-accent">.</span>
-                </div>
-                <div className="hidden sm:block">
-                  <h2 className="font-heading font-bold text-base sm:text-lg leading-tight tracking-tight text-[#F5F0E8]">
-                    Techno NDT
-                  </h2>
-                  <p className="text-[10px] text-[#F5F0E8]/60 uppercase tracking-widest font-medium">
-                    Technical Services
-                  </p>
-                </div>
+                <img src={logo} alt="Techno NDT Technical Services" className="h-12 sm:h-14 w-auto brightness-0 invert" />
               </Link>
-              <h2 className="sm:hidden font-heading font-bold text-base leading-tight tracking-tight text-[#F5F0E8]">
-                Techno NDT
-              </h2>
               <p className="text-accent font-bold font-heading tracking-widest uppercase text-[10px] sm:text-sm">
                 Test. Detect. Protect.
               </p>

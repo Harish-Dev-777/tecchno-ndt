@@ -21,8 +21,9 @@ export default function ClientsMarquee() {
           {topRow.map((client, i) => (
             <div 
               key={`${client.id}-t-${i}`} 
-              className="bg-cream border border-border px-8 py-5 rounded-full whitespace-nowrap shadow-sm"
+              className="bg-cream border border-border px-8 py-5 rounded-full whitespace-nowrap shadow-sm flex items-center gap-4"
             >
+              {client.logo && <img src={client.logo} alt={client.name} className="h-8 w-auto object-contain mix-blend-multiply" />}
               <span className="font-heading font-bold text-ink text-lg">{client.name}</span>
             </div>
           ))}
@@ -33,8 +34,9 @@ export default function ClientsMarquee() {
           {bottomRowExtended.map((client, i) => (
             <div 
               key={`${client.id}-b-${i}`} 
-              className="bg-ink text-cream px-8 py-5 rounded-full whitespace-nowrap shadow-sm"
+              className="bg-ink text-cream px-8 py-5 rounded-full whitespace-nowrap shadow-sm flex items-center gap-4"
             >
+              {client.logo && <img src={client.logo} alt={client.name} className="h-8 w-auto object-contain" />}
               <span className="font-heading font-normal text-cream/90 text-lg">{client.name}</span>
             </div>
           ))}

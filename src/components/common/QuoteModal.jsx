@@ -49,7 +49,7 @@ export default function QuoteModal() {
                 </div>
 
                 <div className="max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
-                  <QuoteForm isSimple={true} />
+                  <QuoteForm isSimple={true} formType="quote" />
                 </div>
               </div>
             </motion.div>

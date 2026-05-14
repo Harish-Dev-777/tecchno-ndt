@@ -4,6 +4,7 @@ import { ContainerTextFlip } from "../ui/container-text-flip";
 import { CircularText } from "../ui/circular-text";
 import { ActionButton } from "../ui/action-button";
 import { motion } from "motion/react";
+import heroCutout from "../../assets/home/hero-cutout.png";
 
 export default function Hero() {
   const scrollToNext = () => {
@@ -73,10 +74,10 @@ export default function Hero() {
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: "auto", opacity: 1 }}
               transition={{ delay: 0.5, type: "spring", stiffness: 50, damping: 15 }}
-              className="w-[80px] h-[36px] sm:w-[120px] sm:h-[48px] md:w-[180px] md:h-[72px] lg:w-[220px] lg:h-[88px] xl:w-[240px] xl:h-[96px] rounded-full overflow-hidden shadow-sm shrink-0"
+              className="w-[120px] h-[36px] sm:w-[180px] sm:h-[48px] md:w-[260px] md:h-[72px] lg:w-[320px] lg:h-[88px] xl:w-[360px] xl:h-[96px] rounded-full overflow-hidden shadow-sm shrink-0"
             >
                <img 
-                 src="https://images.unsplash.com/photo-1542382601-5768560298a0?w=800&q=80" 
+                 src={heroCutout} 
                  alt="Inspection" 
                  className="w-full h-full object-cover" 
                />

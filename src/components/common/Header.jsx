@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Headset, Mail, MessageCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
+import logo from "../../assets/logo.png";
 import ThemeToggle from "../ui/theme-toggle";
 
 export default function Header() {
@@ -64,18 +65,8 @@ export default function Header() {
       >
         <div className="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 relative z-[110]" onClick={closeMenu}>
-            <div className="w-10 h-10 bg-ink text-cream rounded-full flex items-center justify-center font-heading font-black text-xl tracking-tight">
-              TN<span className="text-accent">.</span>
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="font-heading font-bold text-lg leading-tight tracking-tight text-ink">
-                Techno NDT
-              </h1>
-              <p className="text-xs text-ink/60 uppercase tracking-widest font-medium">
-                Technical Services
-              </p>
-            </div>
+          <Link to="/" className="flex items-center relative z-[110]" onClick={closeMenu}>
+            <img src={logo} alt="Techno NDT Technical Services" className="h-14 sm:h-16 w-auto" />
           </Link>
 
           {/* Desktop Nav */}

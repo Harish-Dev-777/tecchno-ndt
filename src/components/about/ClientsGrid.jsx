@@ -22,6 +22,9 @@ export default function ClientsGrid() {
               data-aos-delay={(idx % 3) * 100}
               className="bg-card p-8 rounded-3xl border border-border/50 transition-all hover:border-accent hover:bg-accent group flex flex-col justify-between shadow-sm hover:shadow-xl"
             >
+              <div className="mb-6 h-12 flex items-center justify-start">
+                {client.logo && <img src={client.logo} alt={client.name} className="max-h-full max-w-[120px] object-contain filter group-hover:brightness-0 group-hover:invert transition-all duration-300 mix-blend-multiply group-hover:mix-blend-normal" />}
+              </div>
               <h3 className="font-heading font-bold text-xl text-ink mb-6 group-hover:text-background transition-colors duration-300">
                 {client.name}
               </h3>

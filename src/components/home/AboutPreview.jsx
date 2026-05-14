@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
+import aboutImg from "../../assets/aboutus/about-01.png";
+import { CircularText } from "../ui/circular-text";
 
 export default function AboutPreview() {
   return (
@@ -30,13 +32,24 @@ export default function AboutPreview() {
 
         <div className="relative h-[500px] sm:h-[600px] lg:h-[700px] w-full rounded-[2.5rem] overflow-hidden" data-aos="fade-left">
           <img 
-            src="https://images.unsplash.com/photo-1510156445373-c59807869614?w=1000&q=80" 
+            src={aboutImg} 
             alt="Techno NDT inspection equipment" 
             className="w-full h-full object-cover"
           />
-          {/* Decorative Corner */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-background transition-colors duration-500 rounded-bl-[2.5rem] flex items-center justify-center p-4">
-            <div className="w-full h-full rounded-full border-2 border-dashed border-accent animate-spin-slow"></div>
+          {/* Decorative Corner with CircularText */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-background transition-colors duration-500 rounded-bl-[2.5rem] flex items-center justify-center p-2">
+            <div className="relative w-full h-full flex items-center justify-center">
+              <CircularText 
+                text="TECHNO NDT ★ SINCE 2022 ★ " 
+                spinDuration={25} 
+                className="!w-full !h-full text-accent font-black"
+                textClassName="text-[9px]"
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span className="text-xl font-black text-accent leading-none">4+</span>
+                <span className="text-[5px] font-bold text-ink uppercase tracking-wider mt-0.5">Years</span>
+              </div>
+            </div>
           </div>
         </div>
 
