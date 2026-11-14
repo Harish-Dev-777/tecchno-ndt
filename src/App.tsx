@@ -59,8 +59,9 @@ const validRoutes = [
 
 function AppContent() {
   const { pathname } = useLocation();
-  const isNotFound = !validRoutes.includes(pathname === "/" ? pathname : pathname.replace(/\/$/, ""));
-  const isAdmin = pathname === "/admin";
+  const normalizedPath = pathname === "/" ? pathname : pathname.replace(/\/$/, "");
+  const isNotFound = !validRoutes.includes(normalizedPath);
+  const isAdmin = normalizedPath === "/admin";
   const hideHeaderFooter = isAdmin || isNotFound;
 
   return (
