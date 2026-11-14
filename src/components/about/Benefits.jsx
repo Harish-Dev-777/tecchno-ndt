@@ -11,9 +11,9 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <section className="py-24 sm:py-32 bg-secondary transition-colors duration-500">
+    <section className="py-4 sm:py-6 bg-secondary transition-colors duration-500">
       <div className="max-w-[1400px] mx-auto px-6">
-        <div className="mb-16 text-center" data-aos="fade-up">
+        <div className="mb-8 text-center" data-aos="fade-up">
           <h2 className="font-heading font-black text-4xl md:text-5xl text-ink">
             Why Work With Us
           </h2>

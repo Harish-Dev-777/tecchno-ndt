@@ -2,8 +2,8 @@ import { portfolio } from "../../data/portfolio";
 
 export default function PortfolioGrid() {
   return (
-    <section className="py-24 bg-background transition-colors duration-500">
-      <div className="max-w-[1400px] mx-auto px-6 space-y-48">
+    <section className="py-4 bg-background transition-colors duration-500 min-h-screen">
+      <div className="max-w-[1400px] mx-auto px-6 space-y-12">
         {portfolio.map((project, idx) => {
           return (
             <div 

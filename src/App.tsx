@@ -5,6 +5,7 @@ import Lenis from "@studio-freight/lenis";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import WhatsAppFloat from "./components/common/WhatsAppFloat";
+import QuoteFloat from "./components/common/QuoteFloat";
 import BackToTop from "./components/common/BackToTop";
 import CookieBanner from "./components/common/CookieBanner";
 
@@ -17,10 +18,12 @@ import ContactPage from "./pages/ContactPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import RefundPolicyPage from "./pages/RefundPolicyPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
-import { ThemeProvider } from "./components/theme-provider";
 import { ModalProvider } from "./context/ModalContext";
 import QuoteModal from "./components/common/QuoteModal";
+import ClickSpark from "./components/ui/ClickSpark";
+import AdminPage from "./pages/AdminPage";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -34,30 +37,95 @@ function ScrollToTop() {
         }
       }, 100);
     } else {
+      // Force scroll to top instantly
       window.scrollTo(0, 0);
+      document.documentElement.scrollTo(0, 0);
+      document.body.scrollTo(0, 0);
+      
+      // If lenis is attached to window (common pattern), use it
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(0, { immediate: true });
+      }
     }
   }, [pathname, hash]);
   return null;
 }
 
+const validRoutes = [
+  "/", "/about", "/services", "/portfolio", "/gallery", 
+  "/contact", "/privacy-policy", "/terms-and-conditions", 
+  "/refund-policy", "/admin"
+];
+
+function AppContent() {
+  const { pathname } = useLocation();
+  const isNotFound = !validRoutes.includes(pathname === "/" ? pathname : pathname.replace(/\/$/, ""));
+  const isAdmin = pathname === "/admin";
+  const hideHeaderFooter = isAdmin || isNotFound;
+
+  return (
+    <div className="flex flex-col min-h-screen selection:bg-accent selection:text-white overflow-x-clip">
+      {!hideHeaderFooter && <Header />}
+      <main className={`flex-grow relative z-10 bg-background ${!hideHeaderFooter ? 'shadow-[0_20px_50px_rgba(0,0,0,0.15)]' : ''}`}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-and-conditions" element={<TermsPage />} />
+          <Route path="/refund-policy" element={<RefundPolicyPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
+      
+      {!hideHeaderFooter && (
+        <>
+          <BackToTop />
+          <WhatsAppFloat />
+          <QuoteFloat />
+          <CookieBanner />
+          <Footer />
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    });
+    // Only initialize Lenis on desktop / large screens (width >= 1024px)
+    const isMobile = window.innerWidth < 1024;
+    let lenis: Lenis | null = null;
+    let rafId: number | null = null;
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+    if (!isMobile) {
+      lenis = new Lenis({
+        lerp: 0.1,
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 1.5, 
+        infinite: false,
+      });
+
+      (window as any).lenis = lenis;
+
+      const raf = (time: number) => {
+        if (lenis) {
+          lenis.raf(time);
+          rafId = requestAnimationFrame(raf);
+        }
+      };
+
+      rafId = requestAnimationFrame(raf);
     }
-
-    requestAnimationFrame(raf);
 
     AOS.init({
       duration: 800,
@@ -66,42 +134,31 @@ export default function App() {
     });
 
     return () => {
-      lenis.destroy();
+      if (lenis) {
+        lenis.destroy();
+        (window as any).lenis = null;
+      }
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, []);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <ModalProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <div className="flex flex-col min-h-screen selection:bg-accent selection:text-white bg-background">
-            <Header />
-            <main className="flex-grow relative z-20 bg-background shadow-[0_30px_60px_rgba(0,0,0,0.12)]">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/services" element={<ServicesPage />} />
-                <Route path="/portfolio" element={<PortfolioPage />} />
-                <Route path="/gallery" element={<GalleryPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-                <Route path="/terms-and-conditions" element={<TermsPage />} />
-                <Route path="/refund-policy" element={<RefundPolicyPage />} />
-              </Routes>
-            </main>
-            
-            {/* Reveal Spacer for Fixed Footer */}
-            <div className="h-[1050px] sm:h-[650px] md:h-[500px] lg:h-[450px] pointer-events-none" />
-            
-            <BackToTop />
-            <WhatsAppFloat />
-            <CookieBanner />
-            <Footer />
-          </div>
-          <QuoteModal />
-        </BrowserRouter>
-      </ModalProvider>
-    </ThemeProvider>
+    <ModalProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <ClickSpark
+          sparkColor='#e86b25'
+          sparkSize={10}
+          sparkRadius={15}
+          sparkCount={8}
+          duration={400}
+        >
+          <AppContent />
+        </ClickSpark>
+        <QuoteModal />
+      </BrowserRouter>
+    </ModalProvider>
   );
 }

@@ -18,18 +18,20 @@ function FAQItem({ faq, isOpen, onClick }) {
 
   return (
     <div className="border border-border bg-secondary rounded-2xl overflow-hidden transition-all duration-300 mb-4">
-      <button
-        onClick={onClick}
-        className="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none"
-      >
-        <span className={cn("font-heading font-bold text-lg md:text-xl pr-8 transition-colors", isOpen ? "text-accent" : "text-ink")}>
-          {faq.question}
-        </span>
-        <span className={cn("shrink-0 p-2 rounded-full transition-colors", isOpen ? "bg-accent/10 text-accent" : "bg-card text-ink")}>
-          {isOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-        </span>
-      </button>
-      <div
+      <dt>
+        <button
+          onClick={onClick}
+          className="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none"
+        >
+          <span className={cn("font-heading font-bold text-lg md:text-xl pr-8 transition-colors", isOpen ? "text-accent" : "text-ink")}>
+            {faq.question}
+          </span>
+          <span className={cn("shrink-0 p-2 rounded-full transition-colors", isOpen ? "bg-accent/10 text-accent" : "bg-card text-ink")}>
+            {isOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+          </span>
+        </button>
+      </dt>
+      <dd
         ref={contentRef}
         style={{
           maxHeight: isOpen ? `${contentRef.current?.scrollHeight}px` : "0px",
@@ -39,7 +41,7 @@ function FAQItem({ faq, isOpen, onClick }) {
         <div className="px-6 md:px-8 pb-6 md:pb-8 text-ink-soft leading-relaxed">
           {faq.answer}
         </div>
-      </div>
+      </dd>
     </div>
   );
 }
@@ -52,16 +54,16 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-24 sm:py-32 bg-background transition-colors duration-500">
+    <section className="py-2 sm:py-4 bg-background transition-colors duration-500">
       <div className="max-w-[900px] mx-auto px-6">
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-8" data-aos="fade-up">
           <span className="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">Queries Answered</span>
           <h2 className="font-heading font-black text-4xl md:text-5xl lg:text-6xl text-ink">
             Frequently Asked Questions
           </h2>
         </div>
 
-        <div className="space-y-4" data-aos="fade-up" data-aos-delay="100">
+        <dl className="space-y-4" data-aos="fade-up" data-aos-delay="100">
           {faqs.map((faq, index) => (
             <FAQItem
               key={index}
@@ -70,7 +72,7 @@ export default function FAQ() {
               onClick={() => handleClick(index)}
             />
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

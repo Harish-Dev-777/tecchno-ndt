@@ -20,10 +20,10 @@ export default function GalleryMarquee() {
   };
 
   return (
-    <section className="py-24 bg-ink overflow-hidden border-t-4 border-accent">
-      <div className="max-w-[1400px] mx-auto px-6 mb-12" data-aos="fade-up">
+    <section className="py-2 bg-background overflow-hidden transition-colors duration-500">
+      <div className="max-w-[1400px] mx-auto px-6 mb-4" data-aos="fade-up">
         <span className="text-accent font-bold tracking-widest uppercase text-sm block mb-4">Gallery</span>
-        <h2 className="font-heading font-black text-4xl md:text-5xl text-cream">
+        <h2 className="font-heading font-black text-4xl md:text-5xl text-ink">
           Our Work in the Field
         </h2>
       </div>

@@ -1,0 +1,22 @@
+{
+  "name": "Techno NDT Technical Services",
+  "short_name": "Techno NDT",
+  "description": "Professional NDT inspection, testing & industrial manpower supply services in Chennai, India. RT, UT, PT, MPT, PWHT & more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F0E8",
+  "theme_color": "#C8572A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

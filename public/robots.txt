@@ -1,0 +1,9 @@
+# Techno NDT Technical Services
+# https://www.technondtservices.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://www.technondtservices.com/sitemap.xml

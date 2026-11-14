@@ -5,8 +5,8 @@ import { CircularText } from "../ui/circular-text";
 
 export default function AboutPreview() {
   return (
-    <section className="py-24 sm:py-32 bg-background transition-colors duration-500">
-      <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="py-2 sm:py-4 bg-background transition-colors duration-500">
+      <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
         
         <div data-aos="fade-right">
           <span className="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">About Us</span>
@@ -14,7 +14,7 @@ export default function AboutPreview() {
             Precision-Driven <br/> NDT Solutions <br/> Since 2022
           </h2>
           <p className="text-lg text-ink-soft mb-8 leading-relaxed">
-            We in Techno NDT Services believe in continual improvement and customer satisfaction. Our objective is to render efficient service with a Concept of Quality to all kinds of industry, ensuring that Quality and Safety are achieved and maintained throughout every project we coordinate from Chennai.
+            We in Techno NDT Services (TNS) believe in continual improvement and customer satisfaction. Our objective is to render efficient service with a Concept of Quality to all kinds of industry, ensuring that Quality and Safety are achieved and maintained throughout every project we coordinate from Chennai.
           </p>
           
           <div className="flex items-center gap-4 text-ink font-bold mb-10">
@@ -24,13 +24,13 @@ export default function AboutPreview() {
 
           <Link 
             to="/about" 
-            className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-white font-bold h-[48px] sm:h-[60px] px-8 rounded-full transition-all"
+            className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-[#25D366] text-white font-bold h-[48px] sm:h-[60px] px-8 rounded-full transition-all"
           >
             Know More <span>&rarr;</span>
           </Link>
         </div>
 
-        <div className="relative h-[500px] sm:h-[600px] lg:h-[700px] w-full rounded-[2.5rem] overflow-hidden" data-aos="fade-left">
+        <div className="relative aspect-[4/3] lg:aspect-auto lg:h-full w-full rounded-[2.5rem] overflow-hidden" data-aos="fade-left">
           <img 
             src={aboutImg} 
             alt="Techno NDT inspection equipment" 
@@ -46,8 +46,8 @@ export default function AboutPreview() {
                 textClassName="text-[9px]"
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-xl font-black text-accent leading-none">4+</span>
-                <span className="text-[5px] font-bold text-ink uppercase tracking-wider mt-0.5">Years</span>
+                <span className="text-3xl font-black text-accent leading-none">4+</span>
+                <span className="text-[10px] font-bold text-ink uppercase tracking-wider mt-1">Years</span>
               </div>
             </div>
           </div>

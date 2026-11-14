@@ -11,9 +11,9 @@ const getIcon = (index) => {
 
 export default function ServiceList() {
   return (
-    <section className="py-24 sm:py-32 bg-background transition-colors duration-500">
+    <section className="py-2 sm:py-4 bg-background transition-colors duration-500">
       <div className="max-w-[1400px] mx-auto px-6">
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8" data-aos="fade-up">
+        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-8" data-aos="fade-up">
           <div className="max-w-2xl">
             <span className="text-accent font-bold tracking-widest uppercase text-sm mb-4 block">Our Expertise</span>
             <h2 className="font-heading font-black text-3xl md:text-5xl lg:text-6xl text-ink leading-tight">
@@ -22,9 +22,9 @@ export default function ServiceList() {
           </div>
           <Link 
             to="/services" 
-            className="group relative z-10 flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full border-2 border-border bg-card px-8 h-[48px] sm:h-[60px] text-sm font-bold tracking-wide text-ink shadow-xl transition-colors duration-300 hover:border-accent hover:text-white before:absolute before:w-full before:-left-full hover:before:left-0 before:rounded-full before:bg-accent before:transition-all before:duration-700 hover:before:scale-150 hover:before:duration-700 before:-z-10 before:aspect-square"
+            className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-[#25D366] text-white font-bold h-[48px] sm:h-[60px] px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-[#25D366]/40 hover:-translate-y-1"
           >
-            View All 13 Services
+            View All 13 Services <span>&rarr;</span>
           </Link>
         </div>
 
@@ -34,12 +34,12 @@ export default function ServiceList() {
               key={service.id} 
               data-aos="fade-up" 
               data-aos-delay={idx * 100}
-              className="group bg-secondary p-8 lg:p-10 rounded-3xl border-l-[6px] border-transparent hover:border-accent hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 flex flex-col h-full shadow-sm"
+              className="group bg-secondary p-8 lg:p-10 rounded-3xl border-l-[6px] border-transparent hover:border-accent hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 ease-in-out flex flex-col h-full shadow-sm"
             >
-              <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center text-ink mb-8 shadow-sm group-hover:text-accent transition-colors">
+              <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center text-ink mb-8 shadow-sm group-hover:bg-accent group-hover:text-white transition-all duration-500 ease-in-out">
                 {getIcon(idx)}
               </div>
-              <h3 className="font-heading font-bold text-2xl text-ink mb-4 leading-snug">
+              <h3 className="font-heading font-bold text-2xl text-ink mb-4 leading-snug group-hover:text-accent transition-colors duration-500">
                 {service.name}
               </h3>
               <p className="text-muted-foreground mb-8 flex-grow font-medium">
@@ -47,9 +47,9 @@ export default function ServiceList() {
               </p>
               <Link 
                 to={`/services#service-${service.id}`}
-                className="inline-flex items-center gap-2 font-bold text-sm tracking-wide text-ink group-hover:text-accent transition-colors mt-auto"
+                className="inline-flex items-center gap-2 font-bold text-sm tracking-wide text-ink group-hover:text-accent transition-all duration-300 mt-auto"
               >
-                Learn More <span>&rarr;</span>
+                Learn More <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
               </Link>
             </div>
           ))}

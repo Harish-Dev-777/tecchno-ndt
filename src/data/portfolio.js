@@ -16,7 +16,7 @@ import refinery01 from "../assets/portfolio/refinaries-01.png";
 import refinery02 from "../assets/portfolio/refinaries-02.png";
 import nuclear01 from "../assets/portfolio/nuclear-components-01.png";
 import nuclear02 from "../assets/portfolio/nuclear-components-02.png";
-import casting01 from "../assets/portfolio/cating-01.png";
+import casting01 from "../assets/portfolio/casting-01.png";
 import casting02 from "../assets/portfolio/casting-02.png";
 
 export const portfolio = [

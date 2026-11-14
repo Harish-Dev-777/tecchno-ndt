@@ -9,7 +9,7 @@ const features = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="py-24 sm:py-32 bg-background transition-colors duration-500">
+    <section className="py-4 sm:py-6 bg-background transition-colors duration-500">
       <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
         
         <div data-aos="fade-right" className="relative pl-6 sm:pl-10">

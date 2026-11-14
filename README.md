@@ -1,20 +1,18 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# TechnoNDT
 
-# Run and deploy your AI Studio app
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-This contains everything you need to run your app locally.
+2. **Set up environment variables:**
+   Create a `.env` file in the root directory:
+   ```env
+   VITE_GET_QUOTE_API=YOUR_API_ENDPOINT
+   VITE_CONTACT_FORM_API=YOUR_API_ENDPOINT
+   ```
 
-View your app in AI Studio: https://ai.studio/apps/4ff96783-1db0-45ab-b9b4-09ec78547052
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```

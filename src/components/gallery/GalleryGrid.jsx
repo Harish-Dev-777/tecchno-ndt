@@ -24,10 +24,10 @@ export default function GalleryGrid() {
 
   return (
     <>
-      <section className="py-20 max-w-[1400px] mx-auto px-6">
+      <section className="py-4 max-w-[1400px] mx-auto px-6">
         
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-16" data-aos="fade-up">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8" data-aos="fade-up">
           {categories.map((cat) => (
             <button
               key={cat}

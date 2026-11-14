@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Headset, Mail, MessageCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
-import logo from "../../assets/logo.png";
-import ThemeToggle from "../ui/theme-toggle";
+const logo = "/logo.png";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -65,8 +64,16 @@ export default function Header() {
       >
         <div className="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center relative z-[110]" onClick={closeMenu}>
-            <img src={logo} alt="Techno NDT Technical Services" className="h-14 sm:h-16 w-auto" />
+          <Link to="/" className="flex items-center gap-3 relative z-[110] group" onClick={closeMenu}>
+            <img src={logo} alt="Techno NDT" className="h-12 sm:h-16 w-auto transition-transform duration-500 group-hover:scale-105" />
+            <div className="flex flex-col hidden sm:flex">
+              <span className="font-heading font-black text-xl sm:text-2xl leading-none text-ink tracking-tight transition-colors">
+                Techno <span className="text-accent">NDT</span>
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold text-ink-soft uppercase tracking-widest mt-1">
+                Technical Services
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -88,10 +95,7 @@ export default function Header() {
           </nav>
 
           {/* Actions Container */}
-          <div className="flex items-center gap-4 ml-auto lg:ml-0 relative z-[110]" ref={dropdownRef}>
-            {/* Theme Toggler */}
-            <ThemeToggle />
-            
+          <div className="flex items-center gap-2 sm:gap-4 ml-auto lg:ml-0 relative z-[110]" ref={dropdownRef}>
             {/* Customer Support CTA */}
             <div className="relative">
               <button
@@ -130,6 +134,7 @@ export default function Header() {
                     </div>
                   </a>
 
+
                   <a
                     href="https://wa.me/919841506600"
                     target="_blank"
@@ -161,15 +166,31 @@ export default function Header() {
               )}
             </div>
 
-            {/* Mobile Toggle */}
+            {/* Custom Animated Hamburger Toggle */}
             <button
-              className="lg:hidden relative z-[110] w-10 h-10 flex flex-col items-center justify-center gap-1.5 text-ink transition-all"
+              className="lg:hidden relative z-[110] w-10 h-10 flex flex-col items-center justify-center gap-[7px] cursor-pointer transition-all duration-500"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              style={{ transform: mobileMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
               aria-label="Toggle Menu"
             >
-              <span className={cn("block h-0.5 bg-current rounded-full transition-all duration-300 ease-out", mobileMenuOpen ? "translate-y-2 rotate-45 w-6" : "w-6")} />
-              <span className={cn("block h-0.5 bg-current rounded-full transition-all duration-300 ease-out", mobileMenuOpen ? "opacity-0 w-6" : "w-6")} />
-              <span className={cn("block h-0.5 bg-current rounded-full transition-all duration-300 ease-out", mobileMenuOpen ? "-translate-y-2 -rotate-45 w-6" : "w-4 self-end")} />
+              <span 
+                className={cn(
+                  "h-[3px] bg-ink rounded-full transition-all duration-500 origin-center",
+                  mobileMenuOpen ? "w-full absolute rotate-45" : "w-[70%]"
+                )} 
+              />
+              <span 
+                className={cn(
+                  "h-[3px] bg-ink rounded-full transition-all duration-800 w-full",
+                  mobileMenuOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+                )} 
+              />
+              <span 
+                className={cn(
+                  "h-[3px] bg-ink rounded-full transition-all duration-500 origin-center",
+                  mobileMenuOpen ? "w-full absolute -rotate-45" : "w-[70%]"
+                )} 
+              />
             </button>
           </div>
         </div>
